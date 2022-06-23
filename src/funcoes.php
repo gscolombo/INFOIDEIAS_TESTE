@@ -16,12 +16,8 @@ class Funcoes
      * */
     public function SeculoAno(int $ano): int {
         if ($ano >= 1) {
-            $yearString = strval($ano);
-            $yearSize = strlen($yearString); 
-            $centurie = (int) substr($yearString, 0, $yearSize - 2);
-
-            $lastCenturieYear = $ano === (int) str_pad(strval($centurie), $yearSize, "0");
-            return $lastCenturieYear ? $centurie : $centurie + 1; 
+        	$centurie = ceil($ano / 100);
+        	return $centurie;
         }
     }
 	
@@ -37,24 +33,20 @@ class Funcoes
      * */
     public function PrimoAnterior(int $numero): int {
         if ($numero > 1) {
-            $listOfNumbers = [];
-            $n = $numero - 1;
-            while($n > 1) {
-                array_push($listOfNumbers, $n);
-                $n--;
-            }
-
-            foreach($listOfNumbers as $number) {
-                for($i = 2; $i <= $number; $i++) {
-                    if ($i == $number) {
-                        return $number;
-                    }
-                    if ($number % $i == 0) {
-                        continue 2;
-                    }
-                }
-            }
-
+        	for($n = $numero - 1; $n > 1; $n--) {
+        		$m = $n - 1;
+        		while ($m >= 1) {
+        			if ($m === 1) {
+					return $n;
+				}
+        			if ($n % $m == 0) {
+        				break;
+        			} else {
+        				$m--;
+        			}
+        		}
+        	}
+        				
             return 0;
         }        
     }
@@ -152,7 +144,7 @@ $functions = new Funcoes();
 
 echo "Testes da função do século para dado ano: \n";
 echo "Ano 1905 - Século " . $functions -> SeculoAno(1905) . "\n"; // Retorna 20;
-echo "Ano 1700 - Século " . $functions -> SeculoAno(1905) . "\n\n"; // Retorna 17;
+echo "Ano 1700 - Século " . $functions -> SeculoAno(1700) . "\n\n"; // Retorna 17;
 
 echo "Teste da função que encontra segundo maior número em array multidimensional: \n";
 $arr =  [[25,22,18],[10,15,13],[24,5,2],[80,17,15]];
